@@ -9,13 +9,13 @@
 		<title>Association des Scénaristes de Fiction - Hauts-de-France</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		
+
 		<!-- HTML Meta Tags -->
 		<meta name="description" content="L'ASF a pour objet le développement du réseau et la professionnalisation des scénaristes et auteur-réalisateur.ices.s de la Région des Hauts-de-France dans le domaine de l'écriture de séries, films, courts-métrages, y compris d'animation." />
 		<meta name="keywords" content="scénaristes, auteurs, scénaristes de fiction, écriture de scénario, films, séries, courts-métrages, animation, Hauts-de-France, association de scénaristes, professionnalisation, réseau créatif" />
 		<meta name="author" content="Association des Scénaristes de Fiction" />
 		<meta name="robots" content="index, follow" />
-		
+
 		<!-- Open Graph / Facebook Meta Tags -->
 		<meta property="og:url" content="https://assoscenaristesfiction.fr" />
 		<meta property="og:type" content="website" />
@@ -35,13 +35,277 @@
 		<meta name="twitter:title" content="Association des Scénaristes de Fiction - Hauts-de-France" />
 		<meta name="twitter:description" content="L'ASF développe le réseau et la professionnalisation des scénaristes et auteur-réalisateurs en Hauts-de-France, spécialisés en séries, films, courts-métrages, y compris en animation. Rejoignez-nous pour collaborer et créer ensemble." />
 		<meta name="twitter:image" content="https://assoscenaristesfiction.fr/images/BG.jpg" />
-		
+
 		<!-- Canonical Tag for SEO -->
 		<link rel="canonical" href="https://assoscenaristesfiction.fr" />
 
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<!-- ============================================================
+		     SECTION SCÉNARISTES — styles spécifiques (annuaire des membres)
+		     Aucune modification de main.css n'est nécessaire.
+		============================================================ -->
+		<style>
+			/* La fiche a besoin d'être plus large que l'article standard (40em) */
+			#main > article#scenaristes {
+				width: 66em;
+				max-width: calc(100% - 4rem);
+			}
+
+			/* --- Grille 3 colonnes --- */
+			#scenaristes .scenaristes-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.25rem;
+				margin: 2rem 0 1rem;
+				text-align: left;
+			}
+
+			/* --- Carte membre --- */
+			.scenariste {
+				position: relative;
+				overflow: hidden;
+				aspect-ratio: 3 / 4;
+				border-radius: 4px;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				background: radial-gradient(120% 120% at 20% 10%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 55%), #14181c;
+				outline: none;
+			}
+			.scenariste:focus-visible {
+				border-color: rgba(255, 255, 255, 0.8);
+			}
+
+			/* Icône de secours si l'image est introuvable */
+			.scenariste-bg {
+				position: absolute;
+				inset: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: rgba(255, 255, 255, 0.18);
+			}
+			.scenariste-bg::before {
+				font-size: 4rem;
+			}
+
+			/* Portrait : noir & blanc au repos, couleur au survol.
+			   Le .webp est un format IMAGE → on utilise <img>, pas <video>. */
+			.scenariste img {
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				filter: grayscale(100%) brightness(0.75);
+				transform: scale(1.02);
+				transition: filter 0.6s ease, transform 0.8s ease;
+				pointer-events: none;
+			}
+			.scenariste img.is-hidden { opacity: 0; }
+			.scenariste:hover img,
+			.scenariste:focus-visible img,
+			.scenariste:focus-within img,
+			.scenariste.active img {
+				filter: grayscale(0%) brightness(0.9);
+				transform: scale(1.06);
+			}
+
+			/* Nom affiché en bas de la carte au repos */
+			.scenariste-name {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 2;
+				padding: 2rem 1.25rem 1rem;
+				background: linear-gradient(180deg, rgba(20, 24, 28, 0) 0%, rgba(20, 24, 28, 0.92) 78%);
+				transition: opacity 0.35s ease;
+				pointer-events: none;
+			}
+			.scenariste-name h3 {
+				margin: 0;
+				font-size: 1rem;
+				line-height: 1.3;
+			}
+			.scenariste-name .prenom {
+				display: block;
+				font-weight: 300;
+				opacity: 0.75;
+				font-size: 0.8em;
+				letter-spacing: 0.2rem;
+			}
+			.scenariste-name .nom { display: block; font-weight: 700; }
+			.scenariste:hover .scenariste-name,
+			.scenariste:focus-visible .scenariste-name,
+			.scenariste:focus-within .scenariste-name,
+			.scenariste.active .scenariste-name {
+				opacity: 0;
+			}
+
+			/* --- Panneau d'infos (apparaît au survol) --- */
+			.scenariste-infos {
+				position: absolute;
+				inset: 0;
+				z-index: 3;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				gap: 0.6rem;
+				padding: 1.25rem;
+				background: linear-gradient(180deg, rgba(27, 31, 34, 0.35) 0%, rgba(27, 31, 34, 0.82) 42%, rgba(27, 31, 34, 0.96) 100%);
+				opacity: 0;
+				transform: translateY(1rem);
+				pointer-events: none;
+				transition: opacity 0.45s ease, transform 0.45s ease;
+				overflow-y: auto;
+				scrollbar-width: thin;
+				scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+			}
+			.scenariste:hover .scenariste-infos,
+			.scenariste:focus-visible .scenariste-infos,
+			.scenariste:focus-within .scenariste-infos,
+			.scenariste.active .scenariste-infos {
+				opacity: 1;
+				transform: translateY(0);
+				pointer-events: auto;
+			}
+
+			/* Apparition en cascade des contenus */
+			.scenariste-infos > * {
+				opacity: 0;
+				transform: translateY(0.5rem);
+				transition: opacity 0.4s ease, transform 0.4s ease;
+			}
+			.scenariste:hover .scenariste-infos > *,
+			.scenariste:focus-within .scenariste-infos > *,
+			.scenariste.active .scenariste-infos > * {
+				opacity: 1;
+				transform: none;
+			}
+			.scenariste-infos > *:nth-child(2) { transition-delay: 0.05s; }
+			.scenariste-infos > *:nth-child(3) { transition-delay: 0.10s; }
+			.scenariste-infos > *:nth-child(4) { transition-delay: 0.15s; }
+			.scenariste-infos > *:nth-child(5) { transition-delay: 0.20s; }
+
+			/* Contenu de la fiche */
+			.scenariste-infos header h3 {
+				margin: 0 0 0.4rem;
+				font-size: 0.95rem;
+			}
+			.scenariste-infos header .prenom { font-weight: 300; }
+
+			.scenariste-tag {
+				display: inline-block;
+				font-size: 0.55rem;
+				font-weight: 600;
+				letter-spacing: 0.18rem;
+				text-transform: uppercase;
+				line-height: 1;
+				color: #ffffff;
+				border: 1px solid rgba(255, 255, 255, 0.45);
+				background: rgba(255, 255, 255, 0.08);
+				border-radius: 2em;
+				padding: 0.4rem 0.7rem 0.3rem;
+			}
+
+			.scenariste-presentation {
+				font-size: 0.78rem;
+				line-height: 1.55;
+				margin: 0;
+				color: rgba(255, 255, 255, 0.85);
+			}
+
+			.scenariste-favs {
+				list-style: none;
+				margin: 0;
+				padding: 0.55rem 0;
+				border-top: 1px solid rgba(255, 255, 255, 0.18);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+			}
+			.scenariste-favs li {
+				display: flex;
+				align-items: baseline;
+				padding: 0.12rem 0;
+				font-size: 0.78rem;
+				line-height: 1.45;
+			}
+			.scenariste-favs .fav-label {
+				flex: 0 0 auto;
+				width: 4.6rem;
+				font-size: 0.55rem;
+				letter-spacing: 0.14rem;
+				text-transform: uppercase;
+				color: rgba(255, 255, 255, 0.5);
+			}
+			.scenariste-favs .fav-label .icon {
+				margin-right: 0.35rem;
+				font-size: 0.6rem;
+			}
+			.scenariste-favs em { font-style: italic; }
+
+			.scenariste-links {
+				display: flex;
+				align-items: center;
+				gap: 0.7rem;
+				margin: 0;
+			}
+			.scenariste-yt {
+				flex: 0 0 auto;
+				font-size: 1.15rem;
+				color: #ffffff;
+				transition: color 0.3s ease, transform 0.3s ease;
+			}
+			.scenariste-yt:hover { color: #ff3d3d; transform: scale(1.15); }
+
+			.scenariste-contact {
+				margin: 0;
+				font-size: 0.62rem;
+				line-height: 1.5;
+				font-style: italic;
+				color: rgba(255, 255, 255, 0.55);
+			}
+
+			/* Scrollbar discrète si la fiche déborde */
+			.scenariste-infos::-webkit-scrollbar { width: 4px; }
+			.scenariste-infos::-webkit-scrollbar-thumb {
+				background: rgba(255, 255, 255, 0.2);
+				border-radius: 2px;
+			}
+
+			/* --- Responsive : 3 → 2 → 1 colonnes --- */
+			@media screen and (max-width: 1150px) {
+				#main > article#scenaristes { width: calc(100% - 4rem); }
+			}
+			@media screen and (max-width: 980px) {
+				#scenaristes .scenaristes-grid { grid-template-columns: repeat(2, 1fr); }
+			}
+			@media screen and (max-width: 736px) {
+				#main > article#scenaristes { width: calc(100% - 3em); max-width: 100%; }
+			}
+			@media screen and (max-width: 560px) {
+				#scenaristes .scenaristes-grid { grid-template-columns: 1fr; gap: 1rem; }
+			}
+			@media screen and (max-width: 480px) {
+				#main > article#scenaristes { width: 100%; }
+			}
+
+			/* Navigation : évite tout débordement avec le 6e onglet */
+			#header nav ul { flex-wrap: wrap; justify-content: center; }
+
+			/* Accessibilité : pas d'animations si l'utilisateur les réduit */
+			@media (prefers-reduced-motion: reduce) {
+				.scenariste img,
+				.scenariste-infos,
+				.scenariste-infos > *,
+				.scenariste-name {
+					transition: none !important;
+					transform: none !important;
+				}
+			}
+		</style>
 	</head>
 
 	<body class="is-preload">
@@ -63,6 +327,7 @@
 						<nav>
 							<ul>
 								<li><a href="#who">Le Bureau</a></li>
+								<li><a href="#scenaristes">Scénaristes</a></li>
 								<li><a href="#action">Actions</a></li>
 								<li><a href="#agenda">Agenda</a></li>
 								<li><a href="#how">Adhérer</a></li>
@@ -81,7 +346,174 @@
 								<span class="image main"><img src="images/pic01.jpg" alt="La composition du bureau de l'Association des Scénaristes de Fiction" /></span>
 								<p>Le bureau est composé de quatre scénaristes. Nous nous sommes rencontré lors d'une formation et le courant est bien passé. Basé sur l'idée qu'à plusieurs il est plus facile de prendre du recul sur nos projets, nous avons décidé de nous réunir en association et de nous donner les occasions de multiplier les rencontres.</p>
 							</article>
-							
+
+						<!-- scenaristes -->
+							<article id="scenaristes">
+								<h1 class="major">Les scénaristes de l'ASF</h1>
+								<p>De la série au film d'animation, découvrez l'annuaire des membres de l'association. Survolez un portrait pour découvrir leur univers. Vous êtes adhérent·e et souhaitez apparaître ici&nbsp;? <a href="#contact">Contactez-nous</a>.</p>
+
+								<!--
+									➜ POUR AJOUTER UN MEMBRE : copiez-collez un bloc <div class="scenariste">…</div>
+									➜ Placez les photos (member1.webp, member2.webp…) dans le dossier « members/ »
+									  (même niveau que index.html), ou adaptez le chemin dans l'attribut src.
+									➜ Le .webp étant un format IMAGE, on utilise une balise <img> (jamais <video>).
+									➜ Remplacez le lien https://www.youtube.com/ par la chaîne du/de la membre.
+								-->
+								<div class="scenaristes-grid" role="list">
+
+									<!-- membre 1 -->
+									<div class="scenariste" role="listitem" tabindex="0">
+										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+										<img src="members/member1.webp" alt="" loading="lazy" />
+										<div class="scenariste-name">
+											<h3><span class="prenom">Vince</span> <span class="nom">Gilligan</span></h3>
+										</div>
+										<div class="scenariste-infos">
+											<header>
+												<h3><span class="prenom">Vince</span> Gilligan</h3>
+												<span class="scenariste-tag">Comédie</span>
+											</header>
+											<p class="scenariste-presentation">Le style de Vince Gilligan se caractérise par une cinématographie sombre et atmosphérique, un réalisme brut et une narration intense axée sur les personnages.</p>
+											<ul class="scenariste-favs">
+												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Film</span><span><em>The Third Man</em> de Carol Reed</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-book" aria-hidden="true"></span>Livre</span><span><em>The Great Gatsby</em> de F. Scott Fitzgerald</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-tv" aria-hidden="true"></span>Série</span><span><em>Bob l'éponge</em></span></li>
+											</ul>
+											<footer class="scenariste-links">
+												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Vince Gilligan"><span class="label">YouTube</span></a>
+												<p class="scenariste-contact">Contactez l'association pour contacter ce scénariste.</p>
+											</footer>
+										</div>
+									</div>
+
+									<!-- membre 2 -->
+									<div class="scenariste" role="listitem" tabindex="0">
+										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+										<img src="members/member2.webp" alt="" loading="lazy" />
+										<div class="scenariste-name">
+											<h3><span class="prenom">Julien</span> <span class="nom">Moreau</span></h3>
+										</div>
+										<div class="scenariste-infos">
+											<header>
+												<h3><span class="prenom">Julien</span> Moreau</h3>
+												<span class="scenariste-tag">Thriller</span>
+											</header>
+											<p class="scenariste-presentation">Passionné de polars nordiques, Julien construit des intrigues à tiroirs ancrées dans les paysages du bassin minier. Son premier long métrage est en développement.</p>
+											<ul class="scenariste-favs">
+												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Film</span><span><em>Seven</em> de David Fincher</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-book" aria-hidden="true"></span>Livre</span><span><em>Shining</em> de Stephen King</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-tv" aria-hidden="true"></span>Série</span><span><em>True Detective</em></span></li>
+											</ul>
+											<footer class="scenariste-links">
+												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Julien Moreau"><span class="label">YouTube</span></a>
+												<p class="scenariste-contact">Contactez l'association pour contacter ce scénariste.</p>
+											</footer>
+										</div>
+									</div>
+
+									<!-- membre 3 -->
+									<div class="scenariste" role="listitem" tabindex="0">
+										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+										<img src="members/member3.webp" alt="" loading="lazy" />
+										<div class="scenariste-name">
+											<h3><span class="prenom">Sarah</span> <span class="nom">Benali</span></h3>
+										</div>
+										<div class="scenariste-infos">
+											<header>
+												<h3><span class="prenom">Sarah</span> Benali</h3>
+												<span class="scenariste-tag">Drame social</span>
+											</header>
+											<p class="scenariste-presentation">Ancienne éducatrice spécialisée, Sarah écrit au plus près des corps et des territoires. Elle a co-signé deux courts métrages sélectionnés et primés en festival.</p>
+											<ul class="scenariste-favs">
+												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Film</span><span><em>Rosetta</em> des frères Dardenne</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-book" aria-hidden="true"></span>Livre</span><span><em>L'Étranger</em> d'Albert Camus</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-tv" aria-hidden="true"></span>Série</span><span><em>Baron Noir</em></span></li>
+											</ul>
+											<footer class="scenariste-links">
+												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Sarah Benali"><span class="label">YouTube</span></a>
+												<p class="scenariste-contact">Contactez l'association pour contacter cette scénariste.</p>
+											</footer>
+										</div>
+									</div>
+
+									<!-- membre 4 -->
+									<div class="scenariste" role="listitem" tabindex="0">
+										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+										<img src="members/member4.webp" alt="" loading="lazy" />
+										<div class="scenariste-name">
+											<h3><span class="prenom">Théo</span> <span class="nom">Lefèbvre</span></h3>
+										</div>
+										<div class="scenariste-infos">
+											<header>
+												<h3><span class="prenom">Théo</span> Lefèbvre</h3>
+												<span class="scenariste-tag">Science-fiction</span>
+											</header>
+											<p class="scenariste-presentation">Ingénieur de formation, Théo imagine des futurs proches où la technologie bouscule l'intime. Il écrit pour la télévision et le web, entre Lille et Bruxelles.</p>
+											<ul class="scenariste-favs">
+												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Film</span><span><em>Blade Runner</em> de Ridley Scott</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-book" aria-hidden="true"></span>Livre</span><span><em>Fondation</em> d'Isaac Asimov</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-tv" aria-hidden="true"></span>Série</span><span><em>Dark</em></span></li>
+											</ul>
+											<footer class="scenariste-links">
+												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Théo Lefèbvre"><span class="label">YouTube</span></a>
+												<p class="scenariste-contact">Contactez l'association pour contacter ce scénariste.</p>
+											</footer>
+										</div>
+									</div>
+
+									<!-- membre 5 -->
+									<div class="scenariste" role="listitem" tabindex="0">
+										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+										<img src="members/member5.webp" alt="" loading="lazy" />
+										<div class="scenariste-name">
+											<h3><span class="prenom">Manon</span> <span class="nom">Dufresne</span></h3>
+										</div>
+										<div class="scenariste-infos">
+											<header>
+												<h3><span class="prenom">Manon</span> Dufresne</h3>
+												<span class="scenariste-tag">Animation</span>
+											</header>
+											<p class="scenariste-presentation">Animatrice 2D reconvertie à l'écriture, Manon défend une animation de genre, pour la jeunesse comme pour les adultes. Sa série a reçu une aide régionale à l'écriture.</p>
+											<ul class="scenariste-favs">
+												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Film</span><span><em>Le Château ambulant</em> de Hayao Miyazaki</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-book" aria-hidden="true"></span>Livre</span><span><em>Persepolis</em> de Marjane Satrapi</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-tv" aria-hidden="true"></span>Série</span><span><em>Arcane</em></span></li>
+											</ul>
+											<footer class="scenariste-links">
+												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Manon Dufresne"><span class="label">YouTube</span></a>
+												<p class="scenariste-contact">Contactez l'association pour contacter cette scénariste.</p>
+											</footer>
+										</div>
+									</div>
+
+									<!-- membre 6 -->
+									<div class="scenariste" role="listitem" tabindex="0">
+										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+										<img src="members/member6.webp" alt="" loading="lazy" />
+										<div class="scenariste-name">
+											<h3><span class="prenom">Karim</span> <span class="nom">Haddad</span></h3>
+										</div>
+										<div class="scenariste-infos">
+											<header>
+												<h3><span class="prenom">Karim</span> Haddad</h3>
+												<span class="scenariste-tag">Comédie dramatique</span>
+											</header>
+											<p class="scenariste-presentation">Venu du stand-up, Karim écrit des comédies douces-amères sur les familles recomposées. Il anime aussi les ateliers pitch de l'association.</p>
+											<ul class="scenariste-favs">
+												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Film</span><span><em>Le Goût des autres</em> d'Agnès Jaoui</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-book" aria-hidden="true"></span>Livre</span><span><em>99 francs</em> de Frédéric Beigbeder</span></li>
+												<li><span class="fav-label"><span class="icon solid fa-tv" aria-hidden="true"></span>Série</span><span><em>Fleabag</em></span></li>
+											</ul>
+											<footer class="scenariste-links">
+												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Karim Haddad"><span class="label">YouTube</span></a>
+												<p class="scenariste-contact">Contactez l'association pour contacter ce scénariste.</p>
+											</footer>
+										</div>
+									</div>
+
+								</div>
+							</article>
+
 						<!-- actions -->
 							<article id="action">
 								<h1 class="major">Les actions de l'ASF</h1>
@@ -107,14 +539,14 @@
 							<h2 class="major">Samedi 14 Février 9h-12h</h2>
 							<p>Atelier Pitch</p>
 							 <ul style="list-style-type:disc;">
-							  <li> Pitcher son projet de scénario à un producteur, une institution. Quels sont les enjeux ? les informations nécessaires ? Comment s'y préparer ?</li>
+							  <li> Pitcher son projet de scénario à un producteur, une institution. Quels sont les enjeux ? les informations nécessaires ? Comment s'y préparer ?</li>
 							  <li>Public : Scénaristes débutants ou émergents</li>
 							  <li>Intervenant : Julien Courant, scénariste TV, membre du bureau de l'ASF</li>
 							  <li>Durée : 3h</li>
 							  <li>Lieu : Présentiel, <a target="_blank" href="https://maps.app.goo.gl/q32dSQA6qpbKB1KN7">Maison des Associations de Lille</a> </li>
 							  <li>Nombre de places : 15 personnes</li>
 							  <li>Prix : 5 euros pour les adhérents, 10 euros pour les extérieurs</li>
-							  <a href=" https://www.helloasso.com/associations/asf-association-des-scenaristes-de-fiction/evenements/atelier-pitch-le-couteau-suisse-du-scenariste">Inscription</a>
+							  <a href="https://www.helloasso.com/associations/asf-association-des-scenaristes-de-fiction/evenements/atelier-pitch-le-couteau-suisse-du-scenariste">Inscription</a>
 							</ul>
 							</article>
 						<!-- how -->
@@ -135,8 +567,6 @@
 								<ul class="icons">
 									<li><a href="https://www.instagram.com/asf_asso/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 									<li><a href="https://fr.linkedin.com/company/association-sc%C3%A9naristes-fiction" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
-								</ul>
-
 								</ul>
 							</article>
 
@@ -214,8 +644,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 										<li><a href="#" class="button">Default</a></li>
 									</ul>
 								</section>
-
-
+							</article>
 
 					</div>
 
@@ -235,8 +664,40 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-	
+
+		<!-- Section Scénaristes : secours image absente + interaction tactile -->
+			<script>
+				(function () {
+					var cards  = Array.prototype.slice.call(document.querySelectorAll('.scenariste'));
+					if (!cards.length) return;
+					var canHover = window.matchMedia('(hover: hover)').matches;
+
+					/* Si un fichier .webp est absent ou illisible, on masque la balise <img>
+					   (l'icône de secours de la carte reste visible). */
+					cards.forEach(function (card) {
+						var img = card.querySelector('img');
+						if (!img) return;
+						img.addEventListener('error', function () { img.classList.add('is-hidden'); });
+						if (img.complete && img.naturalWidth === 0) img.classList.add('is-hidden');
+					});
+
+					/* Écran tactile : un tap affiche / masque la fiche du membre. */
+					cards.forEach(function (card) {
+						card.addEventListener('click', function () {
+							if (canHover) return;
+							cards.forEach(function (c) { if (c !== card) c.classList.remove('active'); });
+							card.classList.toggle('active');
+						});
+						/* Le lien YouTube ne doit pas refermer la fiche. */
+						var link = card.querySelector('.scenariste-yt');
+						if (link) link.addEventListener('click', function (e) { e.stopPropagation(); });
+						/* Clavier : Entrée / Espace ouvre la fiche. */
+						card.addEventListener('keydown', function (e) {
+							if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('active'); }
+						});
+					});
+				})();
+			</script>
+
 	</body>
 </html>
-
-
