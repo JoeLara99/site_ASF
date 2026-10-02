@@ -252,13 +252,13 @@
 				gap: 0.7rem;
 				margin: 0;
 			}
-			.scenariste-yt {
+			.scenariste-yt, .scenariste-cv {
 				flex: 0 0 auto;
 				font-size: 1.15rem;
 				color: #ffffff;
 				transition: color 0.3s ease, transform 0.3s ease;
 			}
-			.scenariste-yt:hover { color: #ff3d3d; transform: scale(1.15); }
+			.scenariste-yt:hover, .scenariste-cv:hover { color: #ff3d3d; transform: scale(1.15); }
 
 			.scenariste-contact {
 				margin: 0;
@@ -352,108 +352,115 @@
 								<h1 class="major">Les scénaristes de l'ASF</h1>
 								<p>De la série au film d'animation, découvrez l'annuaire des membres de l'association. Survolez un portrait pour découvrir leur univers. Vous êtes adhérent·e et souhaitez apparaître ici&nbsp;? <a href="#contact">Contactez-nous</a>.</p>
 
-								<!--
-									➜ POUR AJOUTER UN MEMBRE : copiez-collez un bloc <div class="scenariste">…</div>
-									➜ Placez les photos (julien.webp, simon.webp, eve.webp, hideo.webp…) dans le dossier « members/ »
-									  (même niveau que index.html), ou adaptez le chemin dans l'attribut src.
-									➜ Le .webp étant un format IMAGE, on utilise une balise <img> (jamais <video>).
-									➜ Remplacez le lien https://www.youtube.com/ par la chaîne du/de la membre.
-								-->
-								<div class="scenaristes-grid" role="list">
+<!-- MEMBERS_START -->
+<div class="scenaristes-grid" role="list">
 
-									<!-- Julien Courant -->
-									<div class="scenariste" role="listitem" tabindex="0">
-										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
-										<img src="members/julien.webp" alt="" loading="lazy" />
-										<div class="scenariste-name">
-											<h3><span class="prenom">Julien</span> <span class="nom">Courant</span></h3>
-										</div>
-										<div class="scenariste-infos">
-											<header>
-												<h3><span class="prenom">Julien</span> Courant</h3>
-												<span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Polar</span> <span class="scenariste-tag">Drame</span>
-											</header>
-											<p class="scenariste-presentation">Après une vie d'informaticien, Julien travaille depuis 5 ans dans le scénario en tant que professionnel. Il a pu notamment travailler sur les séries Petit Secret en famille et la saison 2 de Flashback.</p>
-											<ul class="scenariste-favs">
-												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Réfs.</span><span><em>Usual Suspect</em>, <em>Akira</em>, <em>Brooklyn 99</em></span></li>
-											</ul>
-											<footer class="scenariste-links">
-												<p class="scenariste-contact">Contactez l'association pour rencontrer ce scénariste.</p>
-											</footer>
-										</div>
-									</div>
+<div class="scenariste" role="listitem" tabindex="0">
+    <span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+    <img src="members/juliencourant.webp" alt="" loading="lazy" />
+    <div class="scenariste-name">
+        <h3><span class="prenom">Julien</span> <span class="nom">Courant</span></h3>
+    </div>
+    <div class="scenariste-infos">
+        <header>
+            <h3><span class="prenom">Julien</span> Courant</h3>
+            <span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Polar</span> <span class="scenariste-tag">Romance</span> <span class="scenariste-tag">Fantastique</span> <span class="scenariste-tag">Thriller</span> <span class="scenariste-tag">Horreur</span>
+        </header>
+        <p class="scenariste-presentation">Julien est scénariste télévision et cinéma. Il a notamment travaillé sur les séries Petit Secret en famille et la saison 2 de Flashback. Julien développe des projets de polar/thriller, de comédies, de drame sportif, comédie romantique. Fan de japon il développe également des projets autour de l&#x27;écriture visuelle et narrative manga adapté en fiction prise de vue réelle (verticale, ciné, tv).</p>
+        <ul class="scenariste-favs">
+            <li>
+                <span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span> Réfs.</span>
+                <span><em>Usual Suspect</em>, <em>Akira et Inital D</em>, <em>Brooklyn 99</em></span>
+            </li>
+        </ul>
+        <footer class="scenariste-links">
 
-									<!-- Simon Harduin -->
-									<div class="scenariste" role="listitem" tabindex="0">
-										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
-										<img src="members/simon.webp" alt="" loading="lazy" />
-										<div class="scenariste-name">
-											<h3><span class="prenom">Simon</span> <span class="nom">Harduin</span></h3>
-										</div>
-										<div class="scenariste-infos">
-											<header>
-												<h3><span class="prenom">Simon</span> Harduin</h3>
-												<span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Social</span> <span class="scenariste-tag">Fantastique</span> <span class="scenariste-tag">Drame</span> <span class="scenariste-tag">Polar</span> <span class="scenariste-tag">Zidane</span>
-											</header>
-											<p class="scenariste-presentation">En 2018, il quitte le monde de l'animation pour commencer sa carrière d'auteur-réalisateur. Il s'initie à l'écriture de scénario en participant aux formations de Marc Herpoux. Il réalise trois courts métrages en partenariat avec Pictanovo. Il développe actuellement plusieurs projets de longs-métrages et de séries.</p>
-											<ul class="scenariste-favs">
-												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Réfs.</span><span><em>Breaking Bad</em>, <em>Kaurismäki</em>, <em>Zidane</em>, <em>The Office</em>, <em>Jurassic Park</em></span></li>
-											</ul>
-											<footer class="scenariste-links">
-												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/@laplaceanousfilms5920" target="_blank" rel="noopener" aria-label="Chaîne YouTube de Simon Harduin"><span class="label">YouTube</span></a>
-												<p class="scenariste-contact">Contactez l'association pour rencontrer ce scénariste.</p>
-											</footer>
-										</div>
-									</div>
+            <a class="scenariste-cv icon solid fa-file-pdf" href="CV/juliencourant.pdf" target="_blank" rel="noopener" title="CV de Julien Courant" aria-label="CV de Julien Courant"><span class="label">CV</span></a>
+            <a class="scenariste-contact" href="mailto:juliencourant.auteur@gmail.com">Contacter Julien</a>
+        </footer>
+    </div>
+</div>
 
-									<!-- Eve Lecointe -->
-									<div class="scenariste" role="listitem" tabindex="0">
-										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
-										<img src="members/eve.webp" alt="" loading="lazy" />
-										<div class="scenariste-name">
-											<h3><span class="prenom">Eve</span> <span class="nom">Lecointe</span></h3>
-										</div>
-										<div class="scenariste-infos">
-											<header>
-												<h3><span class="prenom">Eve</span> Lecointe</h3>
-												<span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Drame</span> <span class="scenariste-tag">Romance</span>
-											</header>
-											<p class="scenariste-presentation">Après 5 ans d'études dans le cinéma et une vie entière à visionner des films et séries, mon envie d'être scénariste est encore plus forte qu'avant !</p>
-											<ul class="scenariste-favs">
-												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Réfs.</span><span><em>This Is Us</em>, <em>How I Met Your Mother</em>, <em>The Flash</em></span></li>
-											</ul>
-											<footer class="scenariste-links">
-												<p class="scenariste-contact">Contactez l'association pour rencontrer cette scénariste.</p>
-											</footer>
-										</div>
-									</div>
+<div class="scenariste" role="listitem" tabindex="0">
+    <span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+    <img src="members/simonharduin.webp" alt="" loading="lazy" />
+    <div class="scenariste-name">
+        <h3><span class="prenom">Simon</span> <span class="nom">Harduin</span></h3>
+    </div>
+    <div class="scenariste-infos">
+        <header>
+            <h3><span class="prenom">Simon</span> Harduin</h3>
+            <span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Social</span> <span class="scenariste-tag">Fantastique</span> <span class="scenariste-tag">Drame</span> <span class="scenariste-tag">Polar</span> <span class="scenariste-tag">Zidane</span>
+        </header>
+        <p class="scenariste-presentation">En 2018, il quitte le monde de l&#x27;animation pour commencer sa carrière d&#x27;auteur-réalisateur. Il s&#x27;initie à l&#x27;écriture de scénario en participant aux formations de Marc Herpoux. Il réalise trois courts métrages en partenariat avec Pictanovo. Il développe actuellement plusieurs projets de longs-métrages et de séries.</p>
+        <ul class="scenariste-favs">
+            <li>
+                <span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span> Réfs.</span>
+                <span><em>Breaking Bad</em>, <em>Kaurismäki</em>, <em>The Office</em></span>
+            </li>
+        </ul>
+        <footer class="scenariste-links">
+            <a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/@laplaceanousfilms5920" target="_blank" rel="noopener" aria-label="Œuvre de Simon Harduin"><span class="label">Œuvre</span></a>
 
-									<!-- Hidéo Vinot -->
-									<div class="scenariste" role="listitem" tabindex="0">
-										<span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
-										<img src="members/hideo.webp" alt="" loading="lazy" />
-										<div class="scenariste-name">
-											<h3><span class="prenom">Hidéo</span> <span class="nom">Vinot</span></h3>
-										</div>
-										<div class="scenariste-infos">
-											<header>
-												<h3><span class="prenom">Hidéo</span> Vinot</h3>
-												<span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Drame</span>
-											</header>
-											<p class="scenariste-presentation">Ingénieur en robotique de formation, j'écris et je réalise des courts métrages dans l'optique de réaliser mon premier long métrage.</p>
-											<ul class="scenariste-favs">
-												<li><span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span>Réfs.</span><span><em>Under the Lake</em>, <em>Better Call Saul</em>, <em>La mort de Staline</em></span></li>
-											</ul>
-											<footer class="scenariste-links">
-												<a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/watch?v=edma3uwDVwM" target="_blank" rel="noopener" aria-label="Vidéo YouTube de Hidéo Vinot"><span class="label">YouTube</span></a>
-												<p class="scenariste-contact">Contactez l'association pour rencontrer ce scénariste.</p>
-											</footer>
-										</div>
-									</div>
+            <p class="scenariste-contact">Contactez l'association pour rencontrer cette personne.</p>
+        </footer>
+    </div>
+</div>
 
-								</div>
-							</article>
+<div class="scenariste" role="listitem" tabindex="0">
+    <span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+    <img src="members/evelecointe.webp" alt="" loading="lazy" />
+    <div class="scenariste-name">
+        <h3><span class="prenom">Eve</span> <span class="nom">Lecointe</span></h3>
+    </div>
+    <div class="scenariste-infos">
+        <header>
+            <h3><span class="prenom">Eve</span> Lecointe</h3>
+            <span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Drame</span> <span class="scenariste-tag">Romance</span>
+        </header>
+        <p class="scenariste-presentation">Après 5 ans d&#x27;études dans le cinéma et une vie entière à visionner des films et séries, mon envie d&#x27;être scénariste est encore plus forte qu&#x27;avant !</p>
+        <ul class="scenariste-favs">
+            <li>
+                <span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span> Réfs.</span>
+                <span><em>This Is Us</em>, <em>How I Met Your Mother</em>, <em>The Flash</em></span>
+            </li>
+        </ul>
+        <footer class="scenariste-links">
 
+
+            <p class="scenariste-contact">Contactez l'association pour rencontrer cette personne.</p>
+        </footer>
+    </div>
+</div>
+
+<div class="scenariste" role="listitem" tabindex="0">
+    <span class="scenariste-bg icon solid fa-user" aria-hidden="true"></span>
+    <img src="members/hideovinot.webp" alt="" loading="lazy" />
+    <div class="scenariste-name">
+        <h3><span class="prenom">Hidéo</span> <span class="nom">VINOT</span></h3>
+    </div>
+    <div class="scenariste-infos">
+        <header>
+            <h3><span class="prenom">Hidéo</span> VINOT</h3>
+            <span class="scenariste-tag">Comédie</span> <span class="scenariste-tag">Drame</span>
+        </header>
+        <p class="scenariste-presentation">Ingénieur en robotique de formation, j&#x27;écris et je réalise des courts métrage dans l&#x27;optique de réaliser mon premier long métrage.</p>
+        <ul class="scenariste-favs">
+            <li>
+                <span class="fav-label"><span class="icon solid fa-film" aria-hidden="true"></span> Réfs.</span>
+                <span><em>Under the Lake</em>, <em>Better Call Saul</em>, <em>La mort de Staline</em></span>
+            </li>
+        </ul>
+        <footer class="scenariste-links">
+            <a class="scenariste-yt icon brands fa-youtube" href="https://www.youtube.com/watch?v=edma3uwDVwM" target="_blank" rel="noopener" aria-label="Œuvre de Hidéo VINOT"><span class="label">Œuvre</span></a>
+
+            <p class="scenariste-contact">Contactez l'association pour rencontrer cette personne.</p>
+        </footer>
+    </div>
+</div>
+</div>
+</article>
+<!-- MEMBERS_END -->
 						<!-- actions -->
 							<article id="action">
 								<h1 class="major">Les actions de l'ASF</h1>
@@ -628,11 +635,12 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 							cards.forEach(function (c) { if (c !== card) c.classList.remove('active'); });
 							card.classList.toggle('active');
 						});
-						/* Le lien YouTube ne doit pas refermer la fiche. */
-						var link = card.querySelector('.scenariste-yt');
-						if (link) link.addEventListener('click', function (e) { e.stopPropagation(); });
+						card.querySelectorAll('.scenariste-links a').forEach(function (link) {
+							link.addEventListener('click', function (e) { e.stopPropagation(); });
+						});
 						/* Clavier : Entrée / Espace ouvre la fiche. */
 						card.addEventListener('keydown', function (e) {
+							if (e.target !== card) return;
 							if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('active'); }
 						});
 					});
