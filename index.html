@@ -305,6 +305,52 @@
 					transform: none !important;
 				}
 			}
+
+			/* --- Agenda : calendrier Google (mois en cours + mois suivant) --- */
+			#main > article#agenda {
+				width: 66em;
+				max-width: calc(100% - 4rem);
+			}
+			.agenda-calendars {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1.25rem;
+				margin: 0 0 2.5rem;
+			}
+			.agenda-calendar {
+				overflow: hidden;
+				border-radius: 4px;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				background: #1b1f22;
+			}
+			.agenda-calendar h3 {
+				margin: 0;
+				padding: 0.75rem 1rem 0.6rem;
+				font-size: 0.7rem;
+				letter-spacing: 0.2rem;
+				text-transform: uppercase;
+				color: #fff;
+				background: rgba(255, 255, 255, 0.06);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+			}
+			.agenda-calendar iframe {
+				display: block;
+				width: 100%;
+				height: 28rem;
+				border: 0;
+				background: #fff;
+			}
+			@media screen and (max-width: 1150px) {
+				#main > article#agenda { width: calc(100% - 4rem); }
+			}
+			@media screen and (max-width: 736px) {
+				#main > article#agenda { width: calc(100% - 3em); max-width: 100%; }
+				.agenda-calendars { grid-template-columns: 1fr; }
+				.agenda-calendar iframe { height: 24rem; }
+			}
+			@media screen and (max-width: 480px) {
+				#main > article#agenda { width: 100%; }
+			}
 		</style>
 	</head>
 
@@ -478,22 +524,19 @@
 							<article id="agenda">
 								<h1 class="major">Agenda de l'ASF</h1>
 								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
+							<div class="agenda-calendars">
+								<div class="agenda-calendar">
+									<h3 id="cal-current-title">Mois en cours</h3>
+									<iframe id="cal-current" title="Calendrier du mois en cours" loading="lazy"></iframe>
+								</div>
+								<div class="agenda-calendar">
+									<h3 id="cal-next-title">Mois prochain</h3>
+									<iframe id="cal-next" title="Calendrier du mois prochain" loading="lazy"></iframe>
+								</div>
+							</div>
 							<h2 class="major">Tous les jeudis</h2>
 							<p>Permanence Hebdomadaire au <a target="_blank" href="https://maps.app.goo.gl/EY32PT5aFM8u3Z2FA">JOST</a>. Ouvert à tou.te.s. Metro Gambetta.</p>
 							<p>Si vous êtes adhérent, demandez aux membres directement sur le discord pour connaître les dispos de chacun.</p>
-							<h2 class="major">Vendredi 30 Janvier 19h</h2>
-							<p>Apero de l'ASF au <a target="_blank" href="https://maps.app.goo.gl/NRcgwi6QcWmAsYAU6">TRACK</a>. Ouvert à tou.te.s.</p>
-							<h2 class="major">Samedi 14 Février 9h-12h</h2>
-							<p>Atelier Pitch</p>
-							 <ul style="list-style-type:disc;">
-							  <li> Pitcher son projet de scénario à un producteur, une institution. Quels sont les enjeux ? les informations nécessaires ? Comment s'y préparer ?</li>
-							  <li>Public : Scénaristes débutants ou émergents</li>
-							  <li>Intervenant : Julien Courant, scénariste TV, membre du bureau de l'ASF</li>
-							  <li>Durée : 3h</li>
-							  <li>Lieu : Présentiel, <a target="_blank" href="https://maps.app.goo.gl/q32dSQA6qpbKB1KN7">Maison des Associations de Lille</a> </li>
-							  <li>Nombre de places : 15 personnes</li>
-							  <li>Prix : 5 euros pour les adhérents, 10 euros pour les extérieurs</li>
-							  <a href="https://www.helloasso.com/associations/asf-association-des-scenaristes-de-fiction/evenements/atelier-pitch-le-couteau-suisse-du-scenariste">Inscription</a>
 							</ul>
 							</article>
 						<!-- how -->
@@ -644,6 +687,39 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 							if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('active'); }
 						});
 					});
+				})();
+			</script>
+
+			<script>
+				(function () {
+					var currentFrame = document.getElementById('cal-current');
+					var nextFrame = document.getElementById('cal-next');
+					if (!currentFrame || !nextFrame) return;
+
+					var months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+					var now = new Date();
+					var next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+					function pad(n) { return n < 10 ? '0' + n : String(n); }
+					function lastDay(year, month) { return new Date(year, month + 1, 0).getDate(); }
+					function dateRange(year, month) {
+						return year + pad(month + 1) + '01/' + year + pad(month + 1) + pad(lastDay(year, month));
+					}
+					function calendarUrl(year, month) {
+						return 'https://calendar.google.com/calendar/embed'
+							+ '?src=0f89aec3bc3cafd7d15af2e3b74420ee42f328bfdb8b32317b66e10d8e13d907%40group.calendar.google.com'
+							+ '&ctz=Europe%2FParis'
+							+ '&mode=MONTH'
+							+ '&showTitle=0&showNav=0&showDate=0&showPrint=0'
+							+ '&showTabs=0&showCalendars=0&showTz=0'
+							+ '&wkst=2&hl=fr'
+							+ '&dates=' + dateRange(year, month);
+					}
+					
+					document.getElementById('cal-current-title').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
+					document.getElementById('cal-next-title').textContent = months[next.getMonth()] + ' ' + next.getFullYear();
+					currentFrame.src = calendarUrl(now.getFullYear(), now.getMonth());
+					nextFrame.src = calendarUrl(next.getFullYear(), next.getMonth());
 				})();
 			</script>
 
