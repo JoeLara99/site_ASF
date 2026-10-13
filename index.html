@@ -292,8 +292,29 @@
 				#main > article#scenaristes { width: 100%; }
 			}
 
-			/* Navigation : évite tout débordement avec le 6e onglet */
-			#header nav ul { flex-wrap: wrap; justify-content: center; }
+			/* Navigation : centrage et alignement des 6 onglets sur vue PC (correction du décentrage d'Actions) */
+			#header nav ul {
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			@media screen and (min-width: 737px) {
+				#header nav ul {
+					flex-wrap: nowrap;
+					justify-content: center;
+				}
+				#header nav ul li {
+					flex: 1 1 0;
+				}
+				#header nav ul li a {
+					min-width: 8.5rem;
+					padding: 0 0.5rem 0 0.7rem;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+					white-space: nowrap;
+				}
+			}
 
 			/* Accessibilité : pas d'animations si l'utilisateur les réduit */
 			@media (prefers-reduced-motion: reduce) {
