@@ -1289,14 +1289,15 @@ input, select, textarea {
 
 		#header .logo {
 			width: 5.5rem;
-			height: 5.5rem;
-			line-height: 5.5rem;
-			border: solid 1px #ffffff;
-			border-radius: 100%;
+			height: auto;
+			line-height: 0;
 		}
 
-			#header .logo .icon:before {
-				font-size: 2rem;
+			#header .logo img {
+				display: block;
+				width: 100%;
+				height: auto;
+				object-fit: contain;
 			}
 
 		#header .content {
@@ -1439,13 +1440,8 @@ input, select, textarea {
 
 			#header .logo {
 				width: 4.75rem;
-				height: 4.75rem;
-				line-height: 4.75rem;
+				height: auto;
 			}
-
-				#header .logo .icon:before {
-					font-size: 1.75rem;
-				}
 
 			#header .content .inner {
 				padding: 2.5rem 1rem;
